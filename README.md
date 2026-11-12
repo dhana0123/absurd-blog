@@ -5,7 +5,7 @@ Plain HTML blog for GitHub Pages. No build step.
 ## Write a post
 1. Copy `posts/_template.html` to `posts/my-post.html`.
 2. Edit the title, date and body.
-3. Add a line at the top of the list in `index.html`.
+3. Add an `<li>` at the top of the sidebar list in `index.html`, copying the existing one and changing `href`, `data-slug` (file name without `.html`), the title and the date.
 
 ## Deploy
 1. Create a GitHub repo named `<your-username>.github.io` (public).

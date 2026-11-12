@@ -6,18 +6,52 @@
   <title>Absurd Fictional Blog</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1><a href="index.html">Absurd Fictional Blog</a></h1>
-  <p>Thoughts, stories and experiments by Santhosh.</p>
+<body class="shell">
+  <nav class="sidebar">
+    <h1><a href="index.html">Absurd Fictional Blog</a></h1>
+    <p>Thoughts, stories and experiments by Santhosh.</p>
 
-  <ul class="posts">
-    <!-- Add new posts at the top -->
-    <li><span class="date">2026-11-12</span> <a href="posts/phase-zero.html">Phase 0: Moving Beyond Biology</a></li>
-  </ul>
+    <ul class="posts">
+      <!-- Add new posts at the top: slug is the file name in posts/ without .html -->
+      <li><a href="posts/phase-zero.html" target="content" data-slug="phase-zero">Phase 0: Moving Beyond Biology<br><span class="date">2026-11-12</span></a></li>
+    </ul>
 
-  <footer>
-    <p class="disclaimer"><strong>Disclaimer:</strong> Everything on this blog is fictional and consists of my own personal thoughts. It is not a press release or official statement of any company. Any resemblance to real people, names, companies or events is purely coincidental, and nothing here is related to any company.</p>
-    &copy; 2026 Santhosh
-  </footer>
+    <p class="side-note">Fictional personal thoughts. Not related to any company. See the disclaimer on each post.</p>
+  </nav>
+
+  <main class="content">
+    <iframe name="content" title="Post" src="posts/phase-zero.html"></iframe>
+  </main>
+
+  <script>
+    // Deep links: index.html#phase-zero opens that post; clicking a post updates the hash.
+    var frame = document.querySelector('iframe');
+    var links = document.querySelectorAll('.posts a');
+
+    function setActive(slug) {
+      links.forEach(function (a) {
+        a.classList.toggle('active', a.dataset.slug === slug);
+      });
+    }
+
+    function openFromHash() {
+      var slug = location.hash.slice(1);
+      var link = slug && document.querySelector('.posts a[data-slug="' + CSS.escape(slug) + '"]');
+      if (!link) link = links[0];
+      if (!link) return;
+      frame.src = link.getAttribute('href');
+      setActive(link.dataset.slug);
+    }
+
+    links.forEach(function (a) {
+      a.addEventListener('click', function () {
+        history.replaceState(null, '', '#' + a.dataset.slug);
+        setActive(a.dataset.slug);
+      });
+    });
+
+    window.addEventListener('hashchange', openFromHash);
+    openFromHash();
+  </script>
 </body>
 </html>
